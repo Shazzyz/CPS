@@ -67,10 +67,10 @@ void getColumnValue(int row, int col, char* result) {
 
   while (fgets(wanted, sizeof(wanted), data) != NULL) {
     if (ctr == row) {
-      char *thing = strtok(wanted, ",\n");
+      char *thing = strtok(wanted, ",");
 
       for (int i = 0; i < col; i++) {
-        thing = strtok(NULL, ",\n");
+        thing = strtok(NULL, ",");
       }
 
       if (thing != NULL) {
@@ -104,15 +104,15 @@ void question2() {
     getColumnValue(row, AVG_TEMP_COL, avgTemp);
     double temp = 0;
     if(strlen(avgTemp) > 0) {
+      // only if temp is available
       temp = atof(avgTemp);
+      int year = getYear(date);
+      int century = (int)year/100 + 1;
+      
+      int index = century - 18;
+      tempCounts[index]++;
+      tempSums[index] = tempSums[index] + temp;
     } 
-    
-    int year = getYear(date);
-    int century = (int)year/100 + 1;
-    
-    int index = century - 18;
-    tempCounts[index]++;
-    tempSums[index] = tempSums[index] + temp;
   }
 
   printf("\n\n       Question 2\n");
