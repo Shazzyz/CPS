@@ -90,7 +90,7 @@ void getColumnValue(int row, int col, char* result) {
 
 /**
 * Question 2 Begins
- */
+*/
 void question2() {
   int tempCounts[4] ={0, 0, 0, 0};
   double tempSums[4] = {0, 0, 0, 0};
@@ -124,9 +124,62 @@ void question2() {
   printf("=============================\n");
 }
 
+/**
+ * Question 3 Begins
+ */
 void question3() {
+  int tempCounts[12];
+  double tempSums[12];
+
+  // initialize all to 0
+  for (int i = 0; i < 12; i++) {
+    tempCounts[i] = 0;
+    tempSums[i] = 0;
+  }
+
+  for (int row = 1; row < rowsCount(); row++) {
+    char date[10];
+    getColumnValue(row, DATE_COL, date);
+    int year = getYear(date);
+    if(year < 1900 || year > 2015) { 
+      continue;
+    }
+
+    int month = getMonth(date);
+    
+    char avgTemp[100];
+    getColumnValue(row, AVG_TEMP_COL, avgTemp);
+    double temp = 0;
+    if (strlen(avgTemp) > 0) {
+      // only if temp is available
+      temp = atof(avgTemp);
+      
+      tempCounts[month - 1]++;
+      tempSums[month - 1] = tempSums[month - 1] + temp;
+    }
+  }
+
   printf("\n\n       Question 3\n");
   printf("=============================\n");
+  for (int i = 0; i < 12; i++) {
+    char * monthName;
+    switch(i) {
+      case 0: monthName = "January"; break;
+      case 1: monthName = "February"; break;
+      case 2: monthName = "March"; break;
+      case 3: monthName = "April"; break;
+      case 4: monthName = "May"; break;
+      case 5: monthName = "June"; break;
+      case 6: monthName = "July"; break;
+      case 7: monthName = "August"; break;
+      case 8: monthName = "September"; break;
+      case 9: monthName = "October"; break;
+      case 10: monthName = "November"; break;
+      case 11: monthName = "December"; break;
+
+    }
+    printf("For %s: Avg. Temp=%.2lf\n", monthName, tempSums[i] / tempCounts[i]);
+  }
   printf("=============================\n");
 }
 
@@ -135,7 +188,6 @@ void question3() {
  */
 int main(void) {
 
-  // question 2
   question2();
   question3();
   return 0;
